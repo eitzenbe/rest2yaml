@@ -30,7 +30,7 @@ import java.util.*;
  *
  * To create static html install bootprint and run it in:
  *
- * cd /home/thomas/Workspace/JiTest/jitest-jira-plugin/doc/restapi
+ * cd /home/thomas/IdeaPorjects/jitest-jira-plugin/doc/restapi
  *
  * bootprint openapi jitest.yaml .
  *
@@ -194,7 +194,7 @@ public class REST2YAML {
   }
 
   private static String getMemberValue(AnnotationExpr a) {
-    return getMemberValue(a, false);
+    return getMemberValue(a, true);
   }
 
   private static String getMemberValue(AnnotationExpr a, @SuppressWarnings("SameParameterValue") boolean trimQuotes) {
@@ -316,9 +316,9 @@ public class REST2YAML {
         // yaml.append(" format: int64\n");
         if (var.hasJavaDocComment()) {
           String cmt = javaDoc2Line(var.getComment().toString());
-          yaml.append("        description: ").append(cmt).append("\n");
+          yaml.append("        description: |\n          ").append(cmt).append("\n");
           if (!example.isEmpty()) {
-            yaml.append("        example: ").append(example).append("\n");
+            yaml.append("        example: |\n          ").append(example).append("\n");
           }
         }
       }
@@ -412,7 +412,7 @@ public class REST2YAML {
             if (description.isEmpty()) {
               description = "\"\"";
             }
-            e.description = "      description: " + description + "\n";
+            e.description = "      description: |\n        " + description + "\n";
           }
         }
 
@@ -488,7 +488,7 @@ public class REST2YAML {
           desc = "No @param tag found for this parameter";
         }
         desc = javaDoc2Line(desc);
-        params.append("          description: ").append(desc).append("\n").append("          required: true\n");
+        params.append("          description: |\n            ").append(desc).append("\n").append("          required: true\n");
         String simpleType = typeMap.get(p.getType().toString());
         if (simpleType != null && simpleType.startsWith("type:")) {
           if (intype.equals("body")) {
